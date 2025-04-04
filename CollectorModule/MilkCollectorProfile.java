@@ -11,7 +11,7 @@ public class MilkCollectorProfile {
     private String region;
     private String vehicleNumber;
     
-    // Collection details
+    // Collected Milk details
     private List<Farm> assignedFarms;
     private double dailyCollectionCapacity; // in liters
     private double currentDayCollection;
@@ -128,49 +128,5 @@ public class MilkCollectorProfile {
                 ", currentDayCollection=" + currentDayCollection +
                 ", yearsOfExperience=" + yearsOfExperience +
                 '}';
-    }
-}
-
-// Supporting Farm class
-class Farm {
-    private String farmId;
-    private String farmName;
-    private String location;
-    private double averageDailyProduction; // in liters
-    
-    public Farm(String farmId, String farmName, String location, double averageDailyProduction) {
-        this.farmId = farmId;
-        this.farmName = farmName;
-        this.location = location;
-        this.averageDailyProduction = averageDailyProduction;
-    }
-    
-    // Getters and setters
-    public String getFarmId() {
-        return farmId;
-    }
-
-    public String getFarmName() {
-        return farmName;
-    }
-
-    public void setFarmName(String farmName) {
-        this.farmName = farmName;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public double getAverageDailyProduction() {
-        return averageDailyProduction;
-    }
-
-    public void setAverageDailyProduction(double averageDailyProduction) {
-        this.averageDailyProduction = averageDailyProduction;
     }
 }
