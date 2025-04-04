@@ -2,19 +2,17 @@ package CollectorModule;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MilkCollectorProfile {
-    // Basic profile information
     private String collectorId;
     private String name;
     private String contactNumber;
     private String region;
     private String vehicleNumber;
-    
-    // Collected Milk details
-    private List<Farm> assignedFarms;
-    private double dailyCollectionCapacity; // in liters
-    private double currentDayCollection;
+    private List<String> assignedFarmIds;
+    private double dailyCollectionCapacity;
+    private List<String> assignedCollectionPointIds;
     private int yearsOfExperience;
     
     // Constructor
@@ -26,9 +24,9 @@ public class MilkCollectorProfile {
         this.region = region;
         this.vehicleNumber = vehicleNumber;
         this.dailyCollectionCapacity = dailyCollectionCapacity;
+        this.assignedCollectionPointIds = new ArrayList<>();
         this.yearsOfExperience = yearsOfExperience;
-        this.assignedFarms = new ArrayList<>();
-        this.currentDayCollection = 0.0;
+        this.assignedFarmIds = new ArrayList<>();
     }
     
     // Getters and Setters
@@ -68,9 +66,8 @@ public class MilkCollectorProfile {
         this.vehicleNumber = vehicleNumber;
     }
 
-    public List<Farm> getAssignedFarms() {
-        return assignedFarms;
-    }
+     public List<String> getAssignedFarmIds() { return assignedFarmIds; }
+    
 
     public double getDailyCollectionCapacity() {
         return dailyCollectionCapacity;
@@ -78,10 +75,6 @@ public class MilkCollectorProfile {
 
     public void setDailyCollectionCapacity(double dailyCollectionCapacity) {
         this.dailyCollectionCapacity = dailyCollectionCapacity;
-    }
-
-    public double getCurrentDayCollection() {
-        return currentDayCollection;
     }
 
     public int getYearsOfExperience() {
@@ -92,28 +85,29 @@ public class MilkCollectorProfile {
         this.yearsOfExperience = yearsOfExperience;
     }
     
-    // Business methods
-    public void addFarm(Farm farm) {
-        this.assignedFarms.add(farm);
-    }
-    
-    public void removeFarm(Farm farm) {
-        this.assignedFarms.remove(farm);
-    }
-    
-    public void recordCollection(double quantity) {
-        if (currentDayCollection + quantity > dailyCollectionCapacity) {
-            System.out.println("Warning: Exceeding daily collection capacity!");
+     // Business methods
+    public void assignFarm(String farmId) {
+        if (!assignedFarmIds.contains(farmId)) {
+            assignedFarmIds.add(farmId);
         }
-        this.currentDayCollection += quantity;
     }
     
-    public void resetDailyCollection() {
-        this.currentDayCollection = 0.0;
+    public boolean isAssignedToFarm(String farmId) {
+        return assignedFarmIds.contains(farmId);
+    }
+
+    public void assignCollectionPoint(String pointId) {
+        if (!assignedCollectionPointIds.contains(pointId)) {
+            assignedCollectionPointIds.add(pointId);
+        }
+    }
+
+    public boolean servesCollectionPoint(String pointId) {
+        return assignedCollectionPointIds.contains(pointId);
     }
     
-    public boolean isCapacityReached() {
-        return currentDayCollection >= dailyCollectionCapacity;
+    public boolean isCapacityReached(double currentCollection) {
+        return currentCollection >= dailyCollectionCapacity;
     }
     
     @Override
@@ -125,7 +119,7 @@ public class MilkCollectorProfile {
                 ", region='" + region + '\'' +
                 ", vehicleNumber='" + vehicleNumber + '\'' +
                 ", dailyCollectionCapacity=" + dailyCollectionCapacity +
-                ", currentDayCollection=" + currentDayCollection +
+                ", collectionPoints=" + assignedCollectionPointIds.size() +
                 ", yearsOfExperience=" + yearsOfExperience +
                 '}';
     }
